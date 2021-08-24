@@ -1,3 +1,5 @@
+const User = require('../models/user');
+
 const getUser = (req, res) => {
     const {q, name = "No name", page} = req.query;
     
@@ -18,13 +20,15 @@ const putUser = (req, res) => {
     });
 };
 
-const postUser = (req, res) => {
-    const { name, age } = req.body;
+const postUser = async (req, res) => {
+    const body = req.body;
+    const user = new User(body);
+
+    await user.save();
 
     res.json({
         message: 'post API - controller',
-        name,
-        age
+        user
     });
 };
 
