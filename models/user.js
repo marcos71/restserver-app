@@ -31,9 +31,18 @@ const UserSchema = new Schema({
         default: false
     }
 });
+/*
+UserSchema.virtual('uid').get(function(){
+    return this._id.toHexString();
+});
 
+UserSchema.set('toJSON', {
+    virtuals: true
+});
+*/
 UserSchema.methods.toJSON = function () {
-    const { __v, password, ...user } = this.toObject();
+    const { __v, password, _id, ...user } = this.toObject();
+    user.uid = _id;
     return user;
 }
 
